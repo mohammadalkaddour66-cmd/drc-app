@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معهد الإمام أحمد بن حنبل - الإدخال اليومي</title>
+    <!-- استدعاء خط كايرو -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- استدعاء مكتبة Tailwind CSS للتصميم -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* الألوان الأساسية والمتغيرات */
+        :root {
+            --navy: #0A1931;
+            --gold: #D4AF37;
+        }
+        
+        /* التنسيق العام والخلفية المنقطة */
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #f8fafc;
+            background-image: radial-gradient(var(--navy) 0.5px, transparent 0.5px);
+            background-size: 30px 30px;
+            background-attachment: fixed;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* ألوان مخصصة لاستخدامها مع Tailwind */
+        .bg-navy { background-color: var(--navy); }
+        .text-navy { color: var(--navy); }
+        .bg-gold { background-color: var(--gold); }
+        .text-gold { color: var(--gold); }
+        .border-gold { border-color: var(--gold); }
+        
+        /* إخفاء أسهم الزيادة والنقصان الافتراضية لحقول الأرقام */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+        
+        /* تأثيرات الانزلاق للأقسام المخفية (الأخلاق وتعديل الاسم) */
+        #akhlaqSection, #renameSection { 
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+            max-height: 0; 
+            opacity: 0; 
+            overflow: hidden; 
+        }
+        #akhlaqSection.show, #renameSection.show { 
+            max-height: 500px; 
+            opacity: 1; 
+            margin-top: 1rem; 
+        }
+
+        /* تنسيق القائمة المنسدلة للبحث */
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-top: none;
+            border-radius: 0 0 1.5rem 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 50;
+        }
+        
+        /* ظل ناعم مخصص للبطاقة الرئيسية */
+        .card-shadow { 
+            box-shadow: 0 20px 25px -5px rgba(10, 25, 49, 0.05), 0 10px 10px -5px rgba(10, 25, 49, 0.02); 
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-24 selection:bg-gold selection:text-navy">
+
+    <!-- الترويسة العلوية -->
+    <header class="bg-navy py-10 px-4 shadow-2xl border-b-8 border-gold mb-8 text-center relative overflow-hidden">
+        <!-- تأثير الخطوط المائلة في الخلفية -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, var(--gold), var(--gold) 1px, transparent 1px, transparent 20px);"></div>
+        
+        <div class="max-w-md mx-auto relative z-10">
+            <div class="w-20 h-20 bg-gold rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg border-4 border-navy transform hover:scale-105 transition-transform duration-300">
+                <span class="text-navy text-4xl leading-none">🕌</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-black text-gold mb-2 tracking-tight">معهد الإمام أحمد بن حنبل</h1>
+            <p class="text-slate-300 text-sm sm:text-base font-bold flex items-center justify-center gap-2">
+                بوابة الإدخال (الوضع السريع) <span class="text-xl animate-pulse">⚡</span>
+            </p>
+        </div>
+    </header>
+
+    <!-- الحاوية الرئيسية -->
+    <main class="max-w-md mx-auto px-4">
+        <form id="dataForm" class="bg-white rounded-[2.5rem] card-shadow p-6 sm:p-8 border border-slate-100 relative">
+            
+            <!-- قسم الحلقة الدراسية -->
+            <div class="mb-8">
+                <label class="block text-navy font-black mb-3 text-sm text-center tracking-wide">الحلقة الدراسية الحالية</label>
+                <div class="w-full bg-slate-50 border-2 border-gold/30 rounded-2xl py-4 px-4 text-center shadow-inner">
+                    <span class="font-black text-navy text-lg flex items-center justify-center gap-2">
+                        <span class="text-gold">📖</span> حلقة براعم القرآن (أ. مجد رشواني)
+                    </span>
+                </div>
+                <!-- حقل مخفي لإرسال اسم الحلقة -->
+                <input type="hidden" id="halaqaName" value="براعم القرآن">
+            </div>
+
+            <!-- قسم البحث عن الطالب -->
+            <div class="mb-3 relative">
+                <label class="block text-navy font-black mb-2 text-sm">اسم الطالب:</label>
+                <div class="relative">
+                    <input type="text" id="studentName" autocomplete="off" placeholder="ابدأ بكتابة اسم الطالب للبحث..."
+                            class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl py-4 pr-12 pl-4 focus:border-gold focus:ring-4 focus:ring-gold/20 focus:outline-none transition-all font-bold text-navy text-lg shadow-sm placeholder:text-slate-400 placeholder:font-semibold"
+                            oninput="handleSearch()">
+                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-2xl grayscale opacity-60">👤</span>
+                </div>
+                <!-- القائمة المنسدلة لنتائج البحث -->
+                <ul id="studentDropdown" class="dropdown-list hidden divide-y divide-slate-100"></ul>
+            </div>
+
+            <!-- زر وتوسعة تصحيح الاسم -->
+            <div class="mb-2 flex justify-start px-2">
+                <button type="button" onclick="toggleRenameSection()" class="text-xs font-bold text-gold hover:text-navy hover:underline decoration-dotted transition-all flex items-center gap-1">
+                    <span>✏️</span> هل يوجد خطأ إملائي؟ (تعديل الاسم)
+                </button>
+            </div>
+
+            <div id="renameSection" class="bg-amber-50 p-5 rounded-3xl border-2 border-amber-100 mb-6">
+                <h4 class="text-xs font-black text-navy mb-3">الاسم الصحيح المعتمد في السجلات:</h4>
+                <div class="space-y-3">
+                    <input type="text" id="newStudentName" placeholder="اكتب الاسم الصحيح هنا..."
+                            class="w-full bg-white border-2 border-amber-200 rounded-xl py-3 px-4 focus:border-gold focus:outline-none font-bold text-navy text-sm">
+                    <button type="button" onclick="submitRename()" 
+                            class="w-full bg-navy text-gold font-black py-3 rounded-xl shadow-md hover:opacity-90 active:scale-95 transition-all text-sm">
+                        حفظ الاسم الجديد
+                    </button>
+                    <p id="renameMsg" class="text-center font-bold text-xs hidden"></p>
+                </div>
+            </div>
+
+            <hr class="my-6 border-slate-100">
+
+            <!-- قسم التسميع (غيباً وتلاوة) -->
+            <div class="mb-8">
+                <h3 class="font-black text-navy text-lg flex items-center gap-3 mb-5">
+                    <span class="w-1.5 h-6 bg-gold rounded-full"></span> التسميع (بالصفحات)
+                </h3>
+                <div class="grid grid-cols-2 gap-4 sm:gap-6">
+                    <!-- غيباً -->
+                    <div class="space-y-2">
+                        <label class="block text-xs text-slate-500 text-center font-black">غيباً (جديد)</label>
+                        <div class="flex items-center bg-slate-50 rounded-2xl p-1 border-2 border-slate-100 shadow-inner">
+                            <button type="button" onclick="adjustValue('newMem', -1)" class="w-12 h-12 flex items-center justify-center bg-white rounded-xl text-navy font-black text-2xl hover:bg-slate-100 active:scale-95 transition-all shadow-sm">-</button>
+                            <input type="number" id="newMem" value="0" class="w-full text-center bg-transparent font-black text-navy text-2xl focus:outline-none">
+                            <button type="button" onclick="adjustValue('newMem', 1)" class="w-12 h-12 flex items-center justify-center bg-white rounded-xl text-navy font-black text-2xl hover:bg-slate-100 active:scale-95 transition-all shadow-sm">+</button>
+                        </div>
+                    </div>
+                    <!-- تلاوة -->
+                    <div class="space-y-2">
+                        <label class="block text-xs text-slate-500 text-center font-black">تلاوة (مراجعة)</label>
+                        <div class="flex items-center bg-slate-50 rounded-2xl p-1 border-2 border-slate-100 shadow-inner">
+                            <button type="button" onclick="adjustValue('oldMem', -1)" class="w-12 h-12 flex items-center justify-center bg-white rounded-xl text-navy font-black text-2xl hover:bg-slate-100 active:scale-95 transition-all shadow-sm">-</button>
+                            <input type="number" id="oldMem" value="0" class="w-full text-center bg-transparent font-black text-navy text-2xl focus:outline-none">
+                            <button type="button" onclick="adjustValue('oldMem', 1)" class="w-12 h-12 flex items-center justify-center bg-white rounded-xl text-navy font-black text-2xl hover:bg-slate-100 active:scale-95 transition-all shadow-sm">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قسم الدوام والتأخير -->
+            <div class="mb-8">
+                <h3 class="font-black text-navy text-lg flex items-center gap-3 mb-5">
+                    <span class="w-1.5 h-6 bg-gold rounded-full"></span> الدوام والتأخير
+                </h3>
+                
+                <!-- التأخير -->
+                <div class="grid grid-cols-2 gap-4 sm:gap-5 mb-4 sm:mb-5">
+                    <div class="space-y-2">
+                        <label class="block text-[10px] sm:text-xs text-slate-400 text-center font-black uppercase tracking-wider">تأخر مبرر (دقيقة)</label>
+                        <div class="flex items-center bg-white border-2 border-slate-100 rounded-2xl overflow-hidden shadow-sm">
+                            <button type="button" onclick="adjustValue('lateJust', -1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl active:bg-slate-200 transition-colors">-</button>
+                            <input type="number" id="lateJust" value="0" class="w-full text-center bg-transparent font-bold text-base sm:text-lg focus:outline-none">
+                            <button type="button" onclick="adjustValue('lateJust', 1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl active:bg-slate-200 transition-colors">+</button>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] sm:text-xs text-slate-400 text-center font-black uppercase tracking-wider">تأخر غير مبرر</label>
+                        <div class="flex items-center bg-white border-2 border-slate-100 rounded-2xl overflow-hidden shadow-sm">
+                            <button type="button" onclick="adjustValue('lateUnjust', -1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl active:bg-slate-200 transition-colors">-</button>
+                            <input type="number" id="lateUnjust" value="0" class="w-full text-center bg-transparent font-bold text-base sm:text-lg focus:outline-none">
+                            <button type="button" onclick="adjustValue('lateUnjust', 1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl active:bg-slate-200 transition-colors">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الغياب -->
+                <div class="grid grid-cols-2 gap-4 sm:gap-5">
+                    <div class="space-y-2">
+                        <label class="block text-[10px] sm:text-xs text-slate-400 text-center font-black uppercase tracking-wider">غياب مبرر (يوم)</label>
+                        <div class="flex items-center bg-white border-2 border-slate-100 rounded-2xl overflow-hidden shadow-sm">
+                            <button type="button" onclick="adjustValue('absentJust', -1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl active:bg-slate-200 transition-colors">-</button>
+                            <input type="number" id="absentJust" value="0" class="w-full text-center bg-transparent font-bold text-base sm:text-lg focus:outline-none">
+                            <button type="button" onclick="adjustValue('absentJust', 1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl active:bg-slate-200 transition-colors">+</button>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] sm:text-xs text-slate-400 text-center font-black uppercase tracking-wider">غياب غير مبرر</label>
+                        <div class="flex items-center bg-white border-2 border-slate-100 rounded-2xl overflow-hidden shadow-sm">
+                            <button type="button" onclick="adjustValue('absentUnjust', -1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl active:bg-slate-200 transition-colors">-</button>
+                            <input type="number" id="absentUnjust" value="0" class="w-full text-center bg-transparent font-bold text-base sm:text-lg focus:outline-none">
+                            <button type="button" onclick="adjustValue('absentUnjust', 1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl active:bg-slate-200 transition-colors">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قسم تقييم الأخلاق (اختياري) -->
+            <div class="mb-10 bg-slate-50 p-5 sm:p-6 rounded-[2rem] border-2 border-dashed border-slate-200 transition-colors hover:border-gold/50">
+                <label class="flex items-center gap-3 sm:gap-4 cursor-pointer group select-none">
+                    <input type="checkbox" id="akhlaqToggle" onchange="toggleAkhlaq()" class="w-5 h-5 sm:w-6 sm:h-6 accent-gold rounded-lg transition-all cursor-pointer">
+                    <span class="font-black text-sm sm:text-base text-navy group-hover:text-gold transition-colors">إدخال تقييم الأخلاق (نهاية الشهر)</span>
+                </label>
+                
+                <div id="akhlaqSection">
+                    <div class="grid grid-cols-2 gap-4 sm:gap-5 pt-5 border-t border-slate-200 mt-4">
+                        <div class="text-center">
+                            <label class="block text-[10px] text-slate-500 mb-2 font-black uppercase">في الجامع (من 10)</label>
+                            <div class="flex items-center bg-white border-2 border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                                <button type="button" onclick="adjustValue('akhlaqMosque', -1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl">-</button>
+                                <input type="number" id="akhlaqMosque" value="10" min="0" max="10" class="w-full text-center bg-transparent font-black text-navy text-lg sm:text-xl focus:outline-none">
+                                <button type="button" onclick="adjustValue('akhlaqMosque', 1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl">+</button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <label class="block text-[10px] text-slate-500 mb-2 font-black uppercase">في المنزل (من 10)</label>
+                            <div class="flex items-center bg-white border-2 border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                                <button type="button" onclick="adjustValue('akhlaqHome', -1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl">-</button>
+                                <input type="number" id="akhlaqHome" value="10" min="0" max="10" class="w-full text-center bg-transparent font-black text-navy text-lg sm:text-xl focus:outline-none">
+                                <button type="button" onclick="adjustValue('akhlaqHome', 1)" class="w-10 h-10 sm:h-12 bg-slate-50 hover:bg-slate-100 text-navy font-black text-lg sm:text-xl">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- زر الحفظ والإرسال اللحظي -->
+            <button type="button" onclick="submitData()" 
+                    class="w-full bg-navy text-white font-black text-xl sm:text-2xl py-5 sm:py-6 rounded-[2rem] shadow-[0_8px_30px_rgb(10,25,49,0.3)] hover:shadow-[0_8px_30px_rgb(212,175,55,0.4)] hover:bg-[#0f2547] transition-all active:scale-[0.98] border-b-8 border-black/20 flex items-center justify-center gap-3 group">
+                <span>حفظ وإرسال</span>
+                <span class="text-gold group-hover:-translate-y-1 transition-transform duration-300">🚀</span>
+            </button>
+            
+            <!-- رسالة الحالة (نجاح/خطأ) -->
+            <p id="statusMsg" class="text-center mt-5 font-black text-sm hidden px-4 py-2 rounded-xl"></p>
+        </form>
+    </main>
+
+    <script>
+        // رابط Google Apps Script المعتمد للنظام
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwWD6wAyQseVBdQ7ZVJf2HeJprsHCNfDE6iqyo4ehq5YBvUl7P9WwSqMfrLFkFL7qW3/exec';
+
+        // قائمة الطلاب الافتراضية
+        const defaultStudents = [
+            "مصطفى العليوي", "حبيب الله حاج عثمان", "محمد زريق", "أحمد العليوي", 
+            "يحيى الهويدي", "يوسف مجدمي", "وسام قشرة", "محمد زهير الخاني", 
+            "محمد حمودة", "عز الدين حسني باشا", "محمد إكهاري", "خالد لبابيدي", 
+            "مروان النعساني", "محمود رفيق درمش", "محمد خربطلي", "يوسف عنداني", "إبراهيم إبراهيم الحمادة"
+        ];
+        
+        // جلب قوائم الطلاب المخصصة والمخفية من الذاكرة المحلية
+        let customStudents = JSON.parse(localStorage.getItem('customStudents') || '[]');
+        let hiddenStudents = JSON.parse(localStorage.getItem('hiddenStudents') || '[]');
+
+        // دالة دمج وفلترة جميع الطلاب
+        function getAllStudents() {
+            let combined = [...new Set([...defaultStudents, ...customStudents])];
+            return combined.filter(name => !hiddenStudents.includes(name));
+        }
+
+        let allStudents = getAllStudents();
+        const studentInput = document.getElementById('studentName');
+        const dropdown = document.getElementById('studentDropdown');
+
+        // 1. نظام البحث الذكي (Smart Search)
+        function handleSearch() {
+            const query = studentInput.value.trim();
+            dropdown.innerHTML = '';
+            
+            if (query.length === 0) { 
+                dropdown.classList.add('hidden'); 
+                return; 
+            }
+            
+            const filtered = allStudents.filter(s => s.includes(query));
+            
+            // عرض النتائج المطابقة
+            filtered.forEach(name => {
+                const li = document.createElement('li');
+                li.className = 'px-5 py-4 hover:bg-slate-50 cursor-pointer font-bold text-navy flex items-center gap-3 transition-colors';
+                li.innerHTML = `<span class="opacity-50">👤</span> ${name}`;
+                li.onclick = () => selectStudent(name);
+                dropdown.appendChild(li);
+            });
+            
+            // إضافة زر "طالب جديد" إذا لم يكن الاسم مطابقاً تماماً
+            const isExactMatch = allStudents.some(s => s === query);
+            if (!isExactMatch && query.length > 0) {
+                const addBtn = document.createElement('li');
+                addBtn.className = 'px-5 py-4 bg-gold/10 hover:bg-gold/20 cursor-pointer text-gold-dark font-black flex items-center gap-3 border-t border-gold/20 transition-colors';
+                addBtn.innerHTML = `<span class="bg-gold text-white rounded-full w-6 h-6 flex items-center justify-center text-sm leading-none">+</span> إضافة: ${query}`;
+                addBtn.onclick = () => addNewStudent(query);
+                dropdown.appendChild(addBtn);
+            }
+            
+            dropdown.classList.remove('hidden');
+        }
+
+        function selectStudent(name) { 
+            studentInput.value = name; 
+            dropdown.classList.add('hidden'); 
+        }
+
+        function addNewStudent(newName) {
+            if (!allStudents.includes(newName)) {
+                customStudents.push(newName);
+                localStorage.setItem('customStudents', JSON.stringify(customStudents));
+                allStudents = getAllStudents(); // تحديث القائمة
+            }
+            selectStudent(newName);
+            showStatus("تم حفظ الطالب في الذاكرة المحلية 💾", "gold");
+        }
+
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (!studentInput.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // 2. دوال الأزرار التفاعلية (+ / -)
+        function adjustValue(id, amount) {
+            const el = document.getElementById(id);
+            let val = parseInt(el.value) || 0;
+            val += amount;
+            
+            // منع القيم السالبة
+            if (val < 0) val = 0;
+            
+            // الحد الأقصى 10 لتقييم الأخلاق
+            if ((id === 'akhlaqMosque' || id === 'akhlaqHome') && val > 10) val = 10;
+            
+            el.value = val;
+        }
+
+        // 3. دوال إظهار/إخفاء الأقسام
+        function toggleAkhlaq() { 
+            document.getElementById('akhlaqSection').classList.toggle('show', document.getElementById('akhlaqToggle').checked); 
+        }
+        
+        function toggleRenameSection() {
+            document.getElementById('renameSection').classList.toggle('show');
+            if (studentInput.value.trim() !== "") {
+                document.getElementById('newStudentName').value = studentInput.value.trim();
+            }
+        }
+
+        // 4. نظام الإشعارات اللحظية (Toast)
+        function showStatus(msg, type) {
+            const el = document.getElementById('statusMsg');
+            el.textContent = msg;
+            
+            // تحديد ألوان الإشعار حسب نوعه
+            let colors = '';
+            if (type === 'error') colors = 'bg-red-100 text-red-700 border border-red-200';
+            else if (type === 'gold') colors = 'bg-amber-100 text-amber-700 border border-amber-200';
+            else colors = 'bg-emerald-100 text-emerald-700 border border-emerald-200';
+            
+            el.className = `text-center mt-5 font-black text-sm block px-4 py-3 rounded-xl transition-all ${colors}`;
+            el.classList.remove('hidden');
+            
+            // إخفاء الإشعار بعد 3.5 ثوانٍ
+            setTimeout(() => el.classList.add('hidden'), 3500);
+        }
+
+        // 5. نظام تصحيح الاسم الإملائي
+        function submitRename() {
+            const oldName = studentInput.value.trim();
+            const newName = document.getElementById('newStudentName').value.trim();
+            const msgEl = document.getElementById('renameMsg');
+            
+            if (!oldName || !newName) {
+                msgEl.textContent = "يرجى تحديد الاسم القديم والجديد!";
+                msgEl.className = "text-center mt-3 font-black text-xs text-red-500 block";
+                msgEl.classList.remove('hidden'); 
+                return;
+            }
+            
+            msgEl.textContent = "جاري التحديث...";
+            msgEl.className = "text-center mt-3 font-black text-xs text-amber-500 block";
+            msgEl.classList.remove('hidden');
+            
+            const payload = { 
+                action: "rename", 
+                halaqa: document.getElementById('halaqaName').value, 
+                oldName: oldName, 
+                newName: newName 
+            };
+            
+            // إرسال طلب التعديل
+            fetch(scriptURL, { 
+                method: 'POST', 
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload) 
+            }).catch(e => console.log(e));
+
+            // تحديث الواجهة والذاكرة المحلية فوراً
+            msgEl.textContent = "تم تغيير الاسم بنجاح ✅";
+            msgEl.className = "text-center mt-3 font-black text-xs text-emerald-500 block";
+            
+            if (!hiddenStudents.includes(oldName)) {
+                hiddenStudents.push(oldName);
+                localStorage.setItem('hiddenStudents', JSON.stringify(hiddenStudents));
+            }
+            if (!defaultStudents.includes(newName) && !customStudents.includes(newName)) {
+                customStudents.push(newName);
+                localStorage.setItem('customStudents', JSON.stringify(customStudents));
+            }
+            
+            allStudents = getAllStudents();
+            studentInput.value = newName;
+            
+            setTimeout(() => { 
+                toggleRenameSection(); 
+                msgEl.classList.add('hidden'); 
+            }, 1500);
+        }
+
+        // دالة مساعدة لتحويل القيم الفارغة إلى 0 برمجياً
+        function getSafeNumber(id) {
+            const val = document.getElementById(id).value.trim();
+            return (val === "" || isNaN(Number(val))) ? 0 : Number(val);
+        }
+
+        // 6. نظام الإرسال الصاروخي (Zero-Latency Submit)
+        function submitData() {
+            const student = studentInput.value.trim();
+            
+            if (!student) { 
+                showStatus("يرجى اختيار اسم الطالب أولاً ⚠️", "error"); 
+                studentInput.focus();
+                return; 
+            }
+            
+            let nMem = getSafeNumber('newMem');
+            let oMem = getSafeNumber('oldMem');
+            
+            let finalNewMem = nMem;
+            let finalOldMem = oMem;
+
+            // تطبيق منطق التسميع المعقد:
+            // إذا كلاهما صفر = نرسل النص "0" ليجبر الإكسل على كتابته
+            // إذا أحدهما صفر والآخر رقم = نرسل الصفر كفراغ "" ليبقى نظيفاً في الإكسل
+            if (nMem === 0 && oMem === 0) {
+                finalNewMem = "0";
+                finalOldMem = "0";
+            } else {
+                if (nMem === 0) finalNewMem = "";
+                if (oMem === 0) finalOldMem = "";
+            }
+            
+            // بناء حزمة البيانات
+            const payload = { 
+                action: "add", 
+                halaqa: document.getElementById('halaqaName').value, 
+                student: student, 
+                newMem: finalNewMem, 
+                oldMem: finalOldMem, 
+                lateJust: getSafeNumber('lateJust'), 
+                lateUnjust: getSafeNumber('lateUnjust'), 
+                absentJust: getSafeNumber('absentJust'), 
+                absentUnjust: getSafeNumber('absentUnjust'), 
+                updateAkhlaq: document.getElementById('akhlaqToggle').checked, 
+                akhlaqMosque: getSafeNumber('akhlaqMosque'), 
+                akhlaqHome: getSafeNumber('akhlaqHome') 
+            };
+            
+            // إرسال صامت في الخلفية (Background Fetch) لمنع تعليق الواجهة
+            fetch(scriptURL, { 
+                method: 'POST', 
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload) 
+            }).catch(e => console.log("Background sync done:", e));
+
+            // إظهار رسالة نجاح فورية للأستاذ
+            showStatus(`تم رصد بيانات (${student}) بنجاح! جاهز للتالي ⚡`, "success");
+            
+            // تصفير جميع الخانات استعداداً للطالب التالي
+            ['newMem', 'oldMem', 'lateJust', 'lateUnjust', 'absentJust', 'absentUnjust'].forEach(id => { 
+                document.getElementById(id).value = 0; 
+            });
+            
+            if(document.getElementById('akhlaqToggle').checked) {
+                document.getElementById('akhlaqMosque').value = 10;
+                document.getElementById('akhlaqHome').value = 10;
+            }
+            
+            // إفراغ حقل الاسم وإعادة المؤشر إليه لسرعة الإدخال المتتالي
+            studentInput.value = ''; 
+            studentInput.focus(); 
+        }
+    </script>
+</body>
+</html>
