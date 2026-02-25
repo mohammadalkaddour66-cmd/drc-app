@@ -13,7 +13,7 @@
       "type": "image/png"
     },
     {
-      "src": "log.png",
+      "src": "log.png?v=1",
       "sizes": "512x512",
       "type": "image/png"
     }
