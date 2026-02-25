@@ -1,32 +1,21 @@
-
 {
-
   "name": "معهد الإمام أحمد بن حنبل",
-
   "short_name": "معهد حنبل",
-
   "description": "نظام الإدخال اليومي لطلاب الحلقات",
-
   "start_url": "index.html",
-
   "display": "standalone",
-
   "background_color": "#0A1931",
-
   "theme_color": "#D4AF37",
-
   "icons": [
-
     {
-
-      "src": "https://github.com/mohammadalkaddour66-cmd/drc-app/blob/main/log.png?raw=true",
-
-      "sizes": "512x512",
-
+      "src": "log.png",
+      "sizes": "192x192",
       "type": "image/png"
-
+    },
+    {
+      "src": "log.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
-
   ]
-
 }
